@@ -1,16 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import { Skeleton, Flex, Button } from '@chakra-ui/core'
+import { useRecoilState } from 'recoil'
 
+import { todoStore } from 'store/todo'
 import { listTodos } from 'graphql/queries'
 import callGraphQL from 'utils/graphql'
-import Todo, { mapListTodosQuery } from 'models/todo'
+import { mapListTodosQuery } from 'models/todo'
 import { ListTodosQuery } from 'API'
 
 import { TodoItem } from './Item'
 
 export function TodoList() {
   const [isLoaded, setLoaded] = useState<boolean>(false)
-  const [todos, setTodos] = useState<Todo[]>([])
+  const [todos, setTodos] = useRecoilState(todoStore)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        setLoaded(false)
+        const todoData = await callGraphQL<ListTodosQuery>(listTodos)
+        const todos = mapListTodosQuery(todoData)
+
+        setTodos(todos)
+      } catch (error) {
+        console.error('Error fetching todos', error)
+      } finally {
+        setLoaded(true)
+      }
+    })()
+  }, [setTodos])
 
   async function getData() {
     try {
@@ -25,10 +43,6 @@ export function TodoList() {
       setLoaded(true)
     }
   }
-
-  useEffect(() => {
-    getData()
-  }, [])
 
   return (
     <div>
