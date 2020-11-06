@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading, Text } from '@chakra-ui/core'
+import { Box, Heading, Text, useColorMode } from '@chakra-ui/core'
 
 import Todo from 'models/todo'
 
@@ -9,12 +9,17 @@ type PropsType = {
 }
 
 export function TodoItem({ todo, isLast = false }: PropsType) {
+  const { colorMode } = useColorMode()
+
   return (
     <Box
-      py="0.5rem"
+      py="1.5rem"
       px="1rem"
-      my="1rem"
-      borderBottom={isLast ? 'none' : '1px solid white'}
+      borderBottom={
+        isLast
+          ? 'none'
+          : `1px solid ${colorMode === 'light' ? 'black' : 'white'}`
+      }
     >
       <Heading size="md">{todo.name ?? 'Untitled'}</Heading>
       <Text noOfLines={3}>{todo.description ?? 'No description'}</Text>

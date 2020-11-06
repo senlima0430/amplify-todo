@@ -1,17 +1,15 @@
 import React from 'react'
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { BrowserRouter } from 'react-router-dom'
 
-import { DefaultLayout } from 'components/layouts/Default'
-import { TodoList } from 'components/todo/List'
-import { TodoAdd } from 'components/todo/Add'
+import { Router } from 'routes'
+import { AuthProvider } from 'context/Auth'
 
-function App() {
+export function App() {
   return (
-    <DefaultLayout>
-      <TodoAdd />
-      <TodoList />
-    </DefaultLayout>
+    <AuthProvider>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
-
-export default withAuthenticator(App)
