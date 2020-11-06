@@ -1,6 +1,8 @@
-import React, { ReactNode } from 'react'
-import { Box } from '@chakra-ui/core'
+import React, { ReactNode, useContext } from 'react'
+import { VStack, Box } from '@chakra-ui/core'
 
+import { AuthContext } from 'context/Auth'
+import { LogoutButton } from 'components/common/LogoutButton'
 import { ColorModeButton } from 'components/common/ColorModeButton'
 
 type PropsType = {
@@ -8,11 +10,14 @@ type PropsType = {
 }
 
 export function DefaultLayout({ children }: PropsType) {
+  const auth = useContext(AuthContext)
+
   return (
     <>
-      <Box pos="absolute" top="1em" right="1em">
+      <VStack pos="absolute" top="1em" right="1em" spacing="10px">
         <ColorModeButton />
-      </Box>
+        {auth.state === 'signedIn' && <LogoutButton />}
+      </VStack>
       <Box
         mx="auto"
         h="100vh"
