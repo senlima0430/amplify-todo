@@ -100,13 +100,6 @@ export function RegisterForm() {
       <Button type="submit" size="sm" colorScheme="green" w="100%">
         Submit
       </Button>
-
-      <button
-        type="button"
-        onClick={() => navigate(`confirm?email=aden0430@outlook.com`)}
-      >
-        test
-      </button>
     </VStack>
   )
 }
