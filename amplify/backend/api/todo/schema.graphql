@@ -1,5 +1,33 @@
+enum Status {
+  CREATED
+  HOLD
+  PROCESSING
+  COMPLETED
+}
+
+type Item {
+  title: String!
+  description: String
+  finished: Boolean!
+}
+
+type Tag {
+  name: String!
+  colorCode: String
+}
+
+type Genre @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  colorCode: String!
+}
+
 type Todo @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
+  tags: [Tag]
   description: String
+  completed: Status! @default(value: "CREATED")
+  genreID: ID!
+  genre: Genre @connection(fields: ["genreID"])
 }

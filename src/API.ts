@@ -2,18 +2,18 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTodoInput = {
+export type CreateGenreInput = {
   id?: string | null,
   name: string,
-  description?: string | null,
+  colorCode: string,
 };
 
-export type ModelTodoConditionInput = {
+export type ModelGenreConditionInput = {
   name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  and?: Array< ModelTodoConditionInput | null > | null,
-  or?: Array< ModelTodoConditionInput | null > | null,
-  not?: ModelTodoConditionInput | null,
+  colorCode?: ModelStringInput | null,
+  and?: Array< ModelGenreConditionInput | null > | null,
+  or?: Array< ModelGenreConditionInput | null > | null,
+  not?: ModelGenreConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,23 +56,51 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type UpdateTodoInput = {
+export type UpdateGenreInput = {
   id: string,
   name?: string | null,
-  description?: string | null,
+  colorCode?: string | null,
 };
 
-export type DeleteTodoInput = {
+export type DeleteGenreInput = {
   id?: string | null,
 };
 
-export type ModelTodoFilterInput = {
-  id?: ModelIDInput | null,
+export type CreateTodoInput = {
+  id?: string | null,
+  name: string,
+  tags?: Array< TagInput | null > | null,
+  description?: string | null,
+  completed: Status,
+  genreID: string,
+};
+
+export type TagInput = {
+  name: string,
+  colorCode?: string | null,
+};
+
+export enum Status {
+  CREATED = "CREATED",
+  HOLD = "HOLD",
+  PROCESSING = "PROCESSING",
+  COMPLETED = "COMPLETED",
+}
+
+
+export type ModelTodoConditionInput = {
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  and?: Array< ModelTodoFilterInput | null > | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
-  not?: ModelTodoFilterInput | null,
+  completed?: ModelStatusInput | null,
+  genreID?: ModelIDInput | null,
+  and?: Array< ModelTodoConditionInput | null > | null,
+  or?: Array< ModelTodoConditionInput | null > | null,
+  not?: ModelTodoConditionInput | null,
+};
+
+export type ModelStatusInput = {
+  eq?: Status | null,
+  ne?: Status | null,
 };
 
 export type ModelIDInput = {
@@ -91,6 +119,90 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type UpdateTodoInput = {
+  id: string,
+  name?: string | null,
+  tags?: Array< TagInput | null > | null,
+  description?: string | null,
+  completed?: Status | null,
+  genreID?: string | null,
+};
+
+export type DeleteTodoInput = {
+  id?: string | null,
+};
+
+export type ModelGenreFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  colorCode?: ModelStringInput | null,
+  and?: Array< ModelGenreFilterInput | null > | null,
+  or?: Array< ModelGenreFilterInput | null > | null,
+  not?: ModelGenreFilterInput | null,
+};
+
+export type ModelTodoFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  completed?: ModelStatusInput | null,
+  genreID?: ModelIDInput | null,
+  and?: Array< ModelTodoFilterInput | null > | null,
+  or?: Array< ModelTodoFilterInput | null > | null,
+  not?: ModelTodoFilterInput | null,
+};
+
+export type CreateGenreMutationVariables = {
+  input: CreateGenreInput,
+  condition?: ModelGenreConditionInput | null,
+};
+
+export type CreateGenreMutation = {
+  createGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type UpdateGenreMutationVariables = {
+  input: UpdateGenreInput,
+  condition?: ModelGenreConditionInput | null,
+};
+
+export type UpdateGenreMutation = {
+  updateGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type DeleteGenreMutationVariables = {
+  input: DeleteGenreInput,
+  condition?: ModelGenreConditionInput | null,
+};
+
+export type DeleteGenreMutation = {
+  deleteGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
 export type CreateTodoMutationVariables = {
   input: CreateTodoInput,
   condition?: ModelTodoConditionInput | null,
@@ -101,7 +213,23 @@ export type CreateTodoMutation = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
@@ -118,7 +246,23 @@ export type UpdateTodoMutation = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
@@ -135,10 +279,64 @@ export type DeleteTodoMutation = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
+  } | null,
+};
+
+export type GetGenreQueryVariables = {
+  id: string,
+};
+
+export type GetGenreQuery = {
+  getGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type ListGenresQueryVariables = {
+  filter?: ModelGenreFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListGenresQuery = {
+  listGenres:  {
+    __typename: "ModelGenreConnection",
+    items:  Array< {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
   } | null,
 };
 
@@ -151,7 +349,23 @@ export type GetTodoQuery = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
@@ -171,12 +385,76 @@ export type ListTodosQuery = {
       __typename: "Todo",
       id: string,
       name: string,
+      tags:  Array< {
+        __typename: "Tag",
+        name: string,
+        colorCode: string | null,
+      } | null > | null,
       description: string | null,
+      completed: Status,
+      genreID: string,
+      genre:  {
+        __typename: "Genre",
+        id: string,
+        name: string,
+        colorCode: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
       owner: string | null,
     } | null > | null,
     nextToken: string | null,
+  } | null,
+};
+
+export type OnCreateGenreSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnCreateGenreSubscription = {
+  onCreateGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnUpdateGenreSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnUpdateGenreSubscription = {
+  onUpdateGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnDeleteGenreSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnDeleteGenreSubscription = {
+  onDeleteGenre:  {
+    __typename: "Genre",
+    id: string,
+    name: string,
+    colorCode: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -189,7 +467,23 @@ export type OnCreateTodoSubscription = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
@@ -205,7 +499,23 @@ export type OnUpdateTodoSubscription = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
@@ -221,7 +531,23 @@ export type OnDeleteTodoSubscription = {
     __typename: "Todo",
     id: string,
     name: string,
+    tags:  Array< {
+      __typename: "Tag",
+      name: string,
+      colorCode: string | null,
+    } | null > | null,
     description: string | null,
+    completed: Status,
+    genreID: string,
+    genre:  {
+      __typename: "Genre",
+      id: string,
+      name: string,
+      colorCode: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     owner: string | null,
